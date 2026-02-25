@@ -1,0 +1,56 @@
+logging:
+  level:
+    root: INFO
+    
+server:
+  port: 8060
+management:
+  endpoints:
+    web:
+      exposure:
+        # Expose only what's necessary to reduce attack surface
+        include: health, info, prometheus, metrics 
+  endpoint:
+    health:
+      # Required for /actuator/health/liveness and /actuator/health/readiness
+      probes:
+        enabled: true
+      # Shows details (like DB status) to help you debug why it's DOWN
+      show-details: always 
+      group:
+        readiness:
+          # Include readiness state + your actual dependencies
+          include: readinessState
+        liveness:
+          # Keep liveness minimal so transient DB blips don't restart the pod
+          include: livenessState
+  server:
+    port: 8061
+spring:
+  application:
+    name: productgateway
+  main:
+    web-application-type: reactive
+
+  cloud:
+    gateway:
+      #discovery:
+        #locator:
+         # enabled: true
+          #lower-case-service-id: true
+      routes:
+        - id: product-catalog
+          uri: http://productcatalogsvc:8050
+          predicates:
+            - Path=/**
+          filters:
+            - RewritePath=/product/?(?<segment>.*), /${segment}
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://cognito-idp.ap-south-1.amazonaws.com/ap-south-1_8zoT6zRFr
+          # OR use jwk-set-uri:
+          # jwk-set-uri: https://cognito-idp.ap-south-1.amazonaws.com/ap-south-1_8zoT6zRFr/.well-known/jwks.json
+
