@@ -7,8 +7,10 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 
+import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 
+@Slf4j
 @Component
 public class JwtHeaderEnrichmentFilter implements GlobalFilter, Ordered {
 
@@ -34,7 +36,7 @@ public class JwtHeaderEnrichmentFilter implements GlobalFilter, Ordered {
                 .cast(JwtAuthenticationToken.class)
                 .map(jwtAuth -> {
                     String userId = jwtAuth.getToken().getSubject();
-
+                    log.info("extracted userId from token: {}", userId);
                     /*ServerHttpRequest mutatedRequest = exchange.getRequest()
                             .mutate()
                             .header(INTERNAL_HEADER, userId)
