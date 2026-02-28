@@ -14,7 +14,9 @@ public class SecurityConfig {
             .csrf(ServerHttpSecurity.CsrfSpec::disable)
             .authorizeExchange(exchange -> exchange
                 // Secure only wishlist APIs
-                .pathMatchers("/wishlist/**","/users/**").authenticated()
+                .pathMatchers("/product/wishlist/**","/users/**")
+                //.hasAnyAuthority("SCOPE_profile","SCOPE_read","profile")
+                .authenticated()
                 // Everything else open
                 .anyExchange().permitAll()
             )
