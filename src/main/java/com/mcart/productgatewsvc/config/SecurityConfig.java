@@ -22,3 +22,6 @@ public class SecurityConfig {
         return http.build();
     }
 }
+
+
+//oauth2 -> oauth2.opaqueToken(opaque -> {opaque.})

@@ -35,10 +35,26 @@ spring:
          # enabled: true
           #lower-case-service-id: true
       routes:
+        # Secure APIs
+        - id: wishlist-route
+          uri: http://productcatalogsvc:8050
+          predicates:
+            - Path=/wishlist/**
+          filters:
+            - RewritePath=/product/?(?<segment>.*), /${segment}
+        
+        - id: users-route
+          uri: http://productcatalogsvc:8050
+          predicates:
+            - Path=/users/**
+          filters:
+            - RewritePath=/product/?(?<segment>.*), /${segment}
+
+        # Public Product APIs
         - id: product-catalog
           uri: http://productcatalogsvc:8050
           predicates:
-            - Path=/**
+            - Path=/product/**
           filters:
             - RewritePath=/product/?(?<segment>.*), /${segment}
 
