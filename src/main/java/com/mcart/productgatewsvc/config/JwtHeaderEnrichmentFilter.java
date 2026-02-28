@@ -35,14 +35,15 @@ public class JwtHeaderEnrichmentFilter implements GlobalFilter, Ordered {
                 .map(jwtAuth -> {
                     String userId = jwtAuth.getToken().getSubject();
 
-                    ServerHttpRequest mutatedRequest = exchange.getRequest()
+                    /*ServerHttpRequest mutatedRequest = exchange.getRequest()
                             .mutate()
                             .header(INTERNAL_HEADER, userId)
                             .build();
-
+					*/
                     return exchange.mutate()
-                            .request(mutatedRequest)
-                            .build();
+                            .request(r -> r.headers(httpHeaders -> {
+                            	httpHeaders.set(INTERNAL_HEADER, userId);
+                            })).build();
                 })
                 .defaultIfEmpty(exchange)
                 .flatMap(chain::filter);
