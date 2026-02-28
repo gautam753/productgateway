@@ -40,31 +40,47 @@ spring:
           uri: http://productcatalogsvc:8050
           predicates:
             - Path=/wishlist/**
-          filters:
-            - RewritePath=/product/?(?<segment>.*), /${segment}
+          #filters:
+          #  - RewritePath=/product/?(?<segment>.*), /${segment}
         
         - id: users-route
           uri: http://productcatalogsvc:8050
           predicates:
             - Path=/users/**
-          filters:
-            - RewritePath=/product/?(?<segment>.*), /${segment}
+          #filters:
+          #  - RewritePath=/product/?(?<segment>.*), /${segment}
 
         # Public Product APIs
         - id: product-catalog
           uri: http://productcatalogsvc:8050
           predicates:
-            - Path=/product/**
-          filters:
-            - RewritePath=/product/?(?<segment>.*), /${segment}
+            - Path=/products/**
+          #filters:
+          #  - RewritePath=/product/?(?<segment>.*), /${segment}
+        - id: cart-routs
+          uri: http://productcatalogsvc:8050
+          predicates:
+            - Path=/cart/**
+        - id: categories-rout
+          uri: http://productcatalogsvc:8050
+          predicates:
+            - Path=/categories/**
+        - id: product-category-mapping-routs
+          uri: http://productcatalogsvc:8050
+          predicates:
+            - Path=/product-category-mapping/**
+        - id: product-category-mapping-routs
+          uri: http://productcatalogsvc:8050
+          predicates:
+            - Path=/variants/**
 
   security:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: https://cognito-idp.ap-south-1.amazonaws.com/ap-south-1_8zoT6zRFr
+          #issuer-uri: https://cognito-idp.ap-south-1.amazonaws.com/ap-south-1_8zoT6zRFr
           # OR use jwk-set-uri:
-          # jwk-set-uri: https://cognito-idp.ap-south-1.amazonaws.com/ap-south-1_8zoT6zRFr/.well-known/jwks.json
+          jwk-set-uri: https://cognito-idp.ap-south-1.amazonaws.com/ap-south-1_8zoT6zRFr/.well-known/jwks.json
 logging:
   level:
     org:
