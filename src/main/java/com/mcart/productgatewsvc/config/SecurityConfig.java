@@ -13,7 +13,6 @@ public class SecurityConfig {
         http
             .csrf(ServerHttpSecurity.CsrfSpec::disable)
             .authorizeExchange(exchange -> exchange
-                // Secure only wishlist APIs
                 .pathMatchers("/wishlist/**","/users/**")
                 //.hasAnyAuthority("SCOPE_profile","SCOPE_read","profile")
                 .authenticated()
@@ -24,6 +23,3 @@ public class SecurityConfig {
         return http.build();
     }
 }
-
-
-//oauth2 -> oauth2.opaqueToken(opaque -> {opaque.})
