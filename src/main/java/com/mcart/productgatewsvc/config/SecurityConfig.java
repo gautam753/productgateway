@@ -20,7 +20,7 @@ public class SecurityConfig {
         http
             .csrf(ServerHttpSecurity.CsrfSpec::disable)
             .authorizeExchange(exchange -> exchange
-                .pathMatchers("/wishlist/**","/users/**")
+                .pathMatchers("/wishlist/**","/users/**","/orders/**")
                 //.hasAnyAuthority("SCOPE_profile","SCOPE_read","profile")
                 .authenticated()
                 // Everything else open
