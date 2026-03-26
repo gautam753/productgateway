@@ -9,4 +9,5 @@ public class ProductGatewayApplication {
     public static void main(String[] args) {
         SpringApplication.run(ProductGatewayApplication.class, args);
     }
+    
 }
